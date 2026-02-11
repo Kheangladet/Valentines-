@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine’s</title>
+<style>
+:root {
+  --pink: #ff4d6d;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  height:100vh;
+  font-family:"Poppins", sans-serif;
+  overflow:hidden;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  position:relative;
+  transition: background 5s linear;
+}
+
+.star, .heart, .rainbow, .floatingImg, .sparkle {
+  position:absolute;
+  pointer-events:none;
+  font-size:20px;
+}
+
+.container {
+  background:white;
+  width:90%;
+  max-width:460px;
+  padding:35px 30px;
+  border-radius:24px;
+  text-align:center;
+  box-shadow:0 25px 60px rgba(0,0,0,0.25);
+  position:relative;
+  z-index:2;
+}
+
+h1 {
+  color: var(--pink);
+  font-size:24px;
+  min-height:40px;
+  margin-bottom:20px;
+}
+
+button {
+  margin-top:15px;
+  padding:12px 28px;
+  border:none;
+  border-radius:40px;
+  background: var(--pink);
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+  transition: transform 0.3s;
+}
+button:hover { transform: scale(1.05); }
+
+.final {
+  font-size:20px;
+  font-weight:bold;
+  color: var(--pink);
+  margin-top:20px;
+  opacity:0;
+  transform:scale(0.9);
+  transition:all 1s ease;
+}
+</style>
+</head>
+<body>
+
+<div id="stars"></div>
+<div id="hearts"></div>
+<div id="rainbows"></div>
+<div id="sparkles"></div>
+<div id="images"></div>
+
+<div class="container">
+  <h1 id="typed"></h1>
+  <button id="confessBtn">Click for my confession 💌</button>
+  <div class="final" id="final-msg"></div>
+</div>
+
+<script>
+// Typed greeting
+const nameText = "Hey, my litte girl";
+const typedElement = document.getElementById("typed");
+let i=0;
+function typeName(){ if(i<nameText.length){ typedElement.innerHTML+=nameText.charAt(i); i++; setTimeout(typeName,100); } }
+typeName();
+
+// Love message
+const loveMessage = [
+  "I love you more than words can describe.",
+  "You’re my safe place, my joy, my everything.",
+  "Thank you for being you… and letting me love you every day.",
+  "Happy Valentine’s Day, my girl ❤️"
+];
+
+// Floating stars
+for(let s=0;s<60;s++){
+  const star=document.createElement("div");
+  star.className="star";
+  star.innerText="★";
+  star.style.left=Math.random()*100+"vw";
+  star.style.top=Math.random()*100+"vh";
+  star.style.fontSize=(2+Math.random()*4)+"px";
+  star.style.opacity=Math.random();
+  document.getElementById("stars").appendChild(star);
+}
+
+// Floating hearts
+setInterval(()=>{
+  const heart=document.createElement("div");
+  heart.className="heart";
+  heart.innerText="❤️";
+  heart.style.left=Math.random()*100+"vw";
+  heart.style.fontSize=(12+Math.random()*25)+"px";
+  heart.style.opacity=0.6+Math.random()*0.4;
+  document.getElementById("hearts").appendChild(heart);
+  setTimeout(()=>heart.remove(),6000);
+},400);
+
+// Floating rainbows
+setInterval(()=>{
+  const r=document.createElement("div");
+  r.className="rainbow";
+  r.innerText="🌈";
+  r.style.left=Math.random()*100+"vw";
+  r.style.fontSize=(15+Math.random()*15)+"px";
+  r.style.opacity=0.5+Math.random()*0.5;
+  document.getElementById("rainbows").appendChild(r);
+  setTimeout(()=>r.remove(),7000);
+},1000);
+
+// Floating sparkles
+setInterval(()=>{
+  const s=document.createElement("div");
+  s.className="sparkle";
+  s.innerText="✨";
+  s.style.left=Math.random()*100+"vw";
+  s.style.fontSize=(8+Math.random()*12)+"px";
+  s.style.opacity=0.3+Math.random()*0.5;
+  document.getElementById("sparkles").appendChild(s);
+  setTimeout(()=>s.remove(),5000);
+},800);
+
+// Floating images (samples - replace src with your images)
+const imgContainer=document.getElementById("images");
+const imgUrls=[
+  "img1.jpg",
+  "img 2.jpg",
+  "img 3.jpg",
+  "img 4.jpg",
+  "img 5.jpg",
+  "img 6.jpg"
+];
+
+imgUrls.forEach(url=>{
+  const img=document.createElement("img");
+  img.src=url;
+  img.className="floatingImg";
+  img.style.width="80px";
+  img.style.position="absolute";
+  img.style.left=Math.random()*80+"vw";
+  img.style.top=Math.random()*80+"vh";
+  img.style.transition="top 10s linear, left 10s linear";
+  imgContainer.appendChild(img);
+});
+
+// Animate floating images
+setInterval(()=>{
+  const imgs=document.querySelectorAll(".floatingImg");
+  imgs.forEach(img=>{
+    img.style.left=Math.random()*80+"vw";
+    img.style.top=Math.random()*80+"vh";
+  });
+},8000);
+
+// Background color change smoothly
+let hue=0;
+setInterval(()=>{
+  hue+=0.2;
+  document.body.style.background=`hsl(${hue},70%,90%)`;
+},50);
+
+// Click anywhere = tiny heart + sparkle burst
+document.body.addEventListener("click", e=>{
+  for(let j=0;j<6;j++){
+    const heart=document.createElement("div");
+    heart.className="heart";
+    heart.innerText="💖";
+    heart.style.left=(e.clientX+(Math.random()*30-15))+"px";
+    heart.style.top=(e.clientY+(Math.random()*30-15))+"px";
+    heart.style.fontSize=(12+Math.random()*15)+"px";
+    heart.style.opacity=0.7+Math.random()*0.3;
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),2000);
+
+    const s=document.createElement("div");
+    s.className="sparkle";
+    s.innerText="✨";
+    s.style.left=(e.clientX+(Math.random()*30-15))+"px";
+    s.style.top=(e.clientY+(Math.random()*30-15))+"px";
+    s.style.fontSize=(8+Math.random()*12)+"px";
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),2000);
+
+    const r=document.createElement("div");
+    r.className="rainbow";
+    r.innerText="🌈";
+    r.style.left=(e.clientX+(Math.random()*30-15))+"px";
+    r.style.top=(e.clientY+(Math.random()*30-15))+"px";
+    r.style.fontSize=(12+Math.random()*18)+"px";
+    document.body.appendChild(r);
+    setTimeout(()=>r.remove(),2000);
+  }
+});
+
+// Confession button
+document.getElementById("confessBtn").addEventListener("click", ()=>{
+  // Hearts explosion
+  for(let j=0;j<80;j++){
+    const h=document.createElement("div");
+    h.className="heart";
+    h.innerText="💖";
+    h.style.left=Math.random()*100+"vw";
+    h.style.top=Math.random()*100+"vh";
+    h.style.fontSize=(12+Math.random()*25)+"px";
+    h.style.opacity=0.6+Math.random()*0.4;
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),5000);
+  }
+
+  // Rainbows and sparkles explosion
+  for(let j=0;j<80;j++){
+    const r=document.createElement("div");
+    r.className="rainbow";
+    r.innerText="🌈";
+    r.style.left=Math.random()*100+"vw";
+    r.style.top=Math.random()*-10+"vh";
+    r.style.fontSize=(10+Math.random()*15)+"px";
+    document.body.appendChild(r);
+    let fall=0;
+    const fallAnim=setInterval(()=>{
+      fall+=1+Math.random()*2;
+      r.style.top=parseFloat(r.style.top)+fall+"px";
+      if(parseFloat(r.style.top)>window.innerHeight){ clearInterval(fallAnim); r.remove(); }
+    },20);
+    
+    const s=document.createElement("div");
+    s.className="sparkle";
+    s.innerText="✨";
+    s.style.left=Math.random()*100+"vw";
+    s.style.top=Math.random()*-10+"vh";
+    s.style.fontSize=(8+Math.random()*15)+"px";
+    document.body.appendChild(s);
+    let fallS=0;
+    const fallAnimS=setInterval(()=>{
+      fallS+=1+Math.random()*2;
+      s.style.top=parseFloat(s.style.top)+fallS+"px";
+      if(parseFloat(s.style.top)>window.innerHeight){ clearInterval(fallAnimS); s.remove(); }
+    },20);
+  }
+
+  // Final message typing with popping letters
+  const finalDiv=document.getElementById("final-msg");
+  finalDiv.innerHTML="";
+  finalDiv.style.opacity=1;
+  finalDiv.style.transform="scale(1.05)";
+  let line=0;
+
+  function typeLine(){
+    if(line<loveMessage.length){
+      let idx=0;
+      const typing=setInterval(()=>{
+        if(idx<loveMessage[line].length){
+          const span=document.createElement("span");
+          span.innerText=loveMessage[line][idx];
+          span.style.display="inline-block";
+          span.style.transition="transform 0.3s";
+          span.style.transform="scale(0.8)";
+          finalDiv.appendChild(span);
+          setTimeout(()=>{ span.style.transform="scale(1)"; },50);
+          idx++;
+        } else {
+          clearInterval(typing);
+          finalDiv.appendChild(document.createElement("br"));
+          line++;
+          setTimeout(typeLine,700);
+        }
+      },40);
+    }
+  }
+  typeLine();
+});
+</script>
+</body>
+</html>
